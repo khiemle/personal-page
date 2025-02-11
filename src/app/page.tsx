@@ -7,6 +7,16 @@ import Button from "@/components/Button";
 import { Github, Terminal } from "lucide-react";
 import { profileData } from "@/data/profileData";
 
+// Mock AI response function
+const getAIResponse = async (message: string): Promise<string> => {
+  // Simulate an AI response
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(`AI Response to: "${message}"`);
+    }, 1000);
+  });
+};
+
 interface TerminalOutputProps {
   terminalOutput: { type: string; message: string }[];
 }
@@ -47,25 +57,25 @@ const Home: React.FC = () => {
     }
   }, [terminalOutput]);
 
-  const handleCommand = (e: FormEvent) => {
+  const handleCommand = async (e: FormEvent) => {
     e.preventDefault();
-    const newOutput = [...terminalOutput];
+    const newOutput = [...terminalOutput, { type: "command", message: `$ ${input}` }];
 
     switch (input.trim().toLowerCase()) {
       case "who":
-        newOutput.push({ type: "command", message: ">$ who" }, { type: "output", message: personalInfo.name });
+        newOutput.push({ type: "output", message: personalInfo.name });
         break;
       case "do":
-        newOutput.push({ type: "command", message: ">$ do" }, { type: "output", message: "Android app development, Software Engineering, Coffee lover" });
+        newOutput.push({ type: "output", message: "Android app development, Software Engineering, Coffee lover" });
         break;
       case "projects":
-        newOutput.push({ type: "command", message: ">$ projects" }, { type: "output", message: projects.map(project => project.name).join("\n") });
+        newOutput.push({ type: "output", message: projects.map(project => project.name).join("\n") });
         break;
       case "contact":
-        newOutput.push({ type: "command", message: ">$ contact" }, { type: "output", message: `Email: ${contact.email}\nGitHub: ${contact.github}` });
+        newOutput.push({ type: "output", message: `Email: ${contact.email}\nGitHub: ${contact.github}` });
         break;
       case "help":
-        newOutput.push({ type: "command", message: ">$ help" }, { type: "output", message: "Available commands: who, do, projects, contact, about, clear" });
+        newOutput.push({ type: "output", message: "Available commands: who, do, projects, contact, about, clear" });
         break;
       case "clear":
         setTerminalOutput([]);
@@ -75,7 +85,13 @@ const Home: React.FC = () => {
         setShowContent(true);
         return;
       default:
-        newOutput.push({ type: "command", message: `$ ${input}` }, { type: "error", message: "Command not found. Type 'help' for available commands." });
+        // If the command is not recognized, get AI response
+        newOutput.push({ type: "loading", message: "Loading AI response..." });
+        setTerminalOutput(newOutput);
+
+        const aiResponse = await getAIResponse(input);
+        newOutput.pop(); // Remove loading message
+        newOutput.push({ type: "output", message: aiResponse });
         break;
     }
 

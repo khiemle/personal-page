@@ -51,7 +51,7 @@ const TerminalOutput: React.FC<TerminalOutputProps> = ({ terminalOutput }) => {
 const Home: React.FC = () => {
   const { personalInfo, about, experience, education, skills, projects, contact } = profileData;
   const [terminalOutput, setTerminalOutput] = useState<{ type: string; message: string }[]>([
-    { type: "command", message: "Type 'help' for available commands." }
+    { type: "command", message: "Type 'help' for available commands. Type 'about' to see my full CV" }
   ]);
   const [input, setInput] = useState<string>("");
   const inputRef = useRef<HTMLInputElement>(null);
@@ -159,7 +159,7 @@ const Home: React.FC = () => {
           <section className="text-center mt-12">
             <h2 className="text-3xl md:text-5xl font-semibold">{personalInfo.title}</h2>
             <p className="mt-4 text-lg max-w-xl mx-auto">
-              I build scalable applications for Android devices.
+              Collaborating to create scalable and impactful Android applications.
             </p>
             <Button className="mt-6 bg-lightBlue text-white hover:bg-darkBlue rounded-full py-3 px-6 text-lg" variant="default">
               <a href={personalInfo.github} target="_blank" className="flex items-center space-x-2">

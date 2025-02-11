@@ -5,22 +5,37 @@ import Card from "@/components/Card";
 import CardContent from "@/components/CardContent";
 import Button from "@/components/Button";
 import { Github, Terminal } from "lucide-react";
+import { profileData } from "@/data/profileData";
 
 interface TerminalOutputProps {
-  terminalOutput: string[];
+  terminalOutput: { type: string; message: string }[];
 }
 
-const TerminalOutput: React.FC<TerminalOutputProps> = ({ terminalOutput }) => (
-  <div className="overflow-y-auto mb-4" style={{ maxHeight: '60vh' }}>
-    {terminalOutput.map((line, index) => (
-      <div key={index}>{line}</div>
-    ))}
-  </div>
-);
+const TerminalOutput: React.FC<TerminalOutputProps> = ({ terminalOutput }) => {
+  const terminalEndRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (terminalEndRef.current) {
+      terminalEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [terminalOutput]);
+
+  return (
+    <div className="overflow-y-auto mb-4 terminal-scrollbar" style={{ maxHeight: '60vh' }}>
+      {terminalOutput.map((line, index) => (
+        <div key={index} className={line.type}>
+          {line.message}
+        </div>
+      ))}
+      <div ref={terminalEndRef} />
+    </div>
+  );
+};
 
 const Home: React.FC = () => {
-  const [terminalOutput, setTerminalOutput] = useState<string[]>([
-    "Type 'help' for available commands."
+  const { personalInfo, about, experience, education, skills, projects, contact } = profileData;
+  const [terminalOutput, setTerminalOutput] = useState<{ type: string; message: string }[]>([
+    { type: "command", message: "Type 'help' for available commands." }
   ]);
   const [input, setInput] = useState<string>("");
   const inputRef = useRef<HTMLInputElement>(null);
@@ -38,19 +53,19 @@ const Home: React.FC = () => {
 
     switch (input.trim().toLowerCase()) {
       case "who":
-        newOutput.push(">$ who", "Khiem Le");
+        newOutput.push({ type: "command", message: ">$ who" }, { type: "output", message: personalInfo.name });
         break;
       case "do":
-        newOutput.push(">$ do", "Android app development, Software Engineering, Coffee lover");
+        newOutput.push({ type: "command", message: ">$ do" }, { type: "output", message: "Android app development, Software Engineering, Coffee lover" });
         break;
       case "projects":
-        newOutput.push(">$ projects", "1. Music Platform\n2. Android Task Manager\n3. Personal Website");
+        newOutput.push({ type: "command", message: ">$ projects" }, { type: "output", message: projects.map(project => project.name).join("\n") });
         break;
       case "contact":
-        newOutput.push(">$ contact", "Email: khiemlq@gmail.com\nGitHub: github.com/khiemle");
+        newOutput.push({ type: "command", message: ">$ contact" }, { type: "output", message: `Email: ${contact.email}\nGitHub: ${contact.github}` });
         break;
       case "help":
-        newOutput.push(">$ help", "Available commands: who, do, projects, contact, about, clear");
+        newOutput.push({ type: "command", message: ">$ help" }, { type: "output", message: "Available commands: who, do, projects, contact, about, clear" });
         break;
       case "clear":
         setTerminalOutput([]);
@@ -60,7 +75,7 @@ const Home: React.FC = () => {
         setShowContent(true);
         return;
       default:
-        newOutput.push(`$ ${input}`, "Command not found. Type 'help' for available commands.");
+        newOutput.push({ type: "command", message: `$ ${input}` }, { type: "error", message: "Command not found. Type 'help' for available commands." });
         break;
     }
 
@@ -95,7 +110,7 @@ const Home: React.FC = () => {
         <>
           {/* Header */}
           <header className="w-full max-w-4xl flex justify-between items-center py-4 border-b border-terminalGreen">
-            <h1 className="text-4xl font-bold">Khiem Le</h1>
+            <h1 className="text-4xl font-bold">{personalInfo.name}</h1>
             <nav className="space-x-4">
               <a href="#about" className="hover:text-white">About</a>
               <a href="#experience" className="hover:text-white">Experience</a>
@@ -108,12 +123,12 @@ const Home: React.FC = () => {
 
           {/* Hero Section */}
           <section className="text-center mt-12">
-            <h2 className="text-3xl md:text-5xl font-semibold">Software Engineer</h2>
+            <h2 className="text-3xl md:text-5xl font-semibold">{personalInfo.title}</h2>
             <p className="mt-4 text-lg max-w-xl mx-auto">
               I build scalable applications for Android devices.
             </p>
             <Button className="mt-6 bg-green-600 text-white hover:bg-green-700 rounded-full py-3 px-6 text-lg" variant="default">
-              <a href="https://github.com/khiemle" target="_blank" className="flex items-center space-x-2">
+              <a href={personalInfo.github} target="_blank" className="flex items-center space-x-2">
                 <Github className="w-6 h-6" />
                 <span>View My GitHub</span>
               </a>
@@ -125,12 +140,8 @@ const Home: React.FC = () => {
             <h3 className="text-2xl font-bold mb-4">About Me</h3>
             <Card className="bg-gray-800 text-white border border-green-600 rounded-lg">
               <CardContent className="p-4">
-                <p>
-                  My goal in joining this company is to work in a positive and stimulating environment that encourages continuous learning and growth. I hope to contribute my past experiences and skills towards creating value for the company.
-                </p>
-                <p className="mt-4">
-                  In addition, I am looking forward to opportunities for professional development and advancement within the company over time. While I am not necessarily seeking a specific position within the IT industry, my ultimate goal is to gain the skills and knowledge necessary to eventually own my own business and have more control over my time.
-                </p>
+                <p>{about.description}</p>
+                <p className="mt-4">{about.goals}</p>
               </CardContent>
             </Card>
           </section>
@@ -138,50 +149,32 @@ const Home: React.FC = () => {
           {/* Experience Section */}
           <section id="experience" className="w-full max-w-4xl mt-20">
             <h3 className="text-2xl font-bold mb-4">Experience</h3>
-            <Card className="bg-gray-800 text-white border border-green-600 rounded-lg">
-              <CardContent className="p-4">
-                <h4 className="text-xl font-semibold">Software Engineer at XYZ Company</h4>
-                <p className="mt-2">Jan 2020 - Present</p>
-                <ul className="list-disc list-inside mt-2">
-                  <li>Developed and maintained Android applications.</li>
-                  <li>Collaborated with cross-functional teams to define, design, and ship new features.</li>
-                  <li>Worked on bug fixing and improving application performance.</li>
-                </ul>
-              </CardContent>
-            </Card>
-            <Card className="bg-gray-800 text-white border border-green-600 rounded-lg mt-4">
-              <CardContent className="p-4">
-                <h4 className="text-xl font-semibold">Junior Developer at ABC Corp</h4>
-                <p className="mt-2">Jun 2018 - Dec 2019</p>
-                <ul className="list-disc list-inside mt-2">
-                  <li>Assisted in the development of web applications using React and Node.js.</li>
-                  <li>Participated in code reviews and contributed to improving code quality.</li>
-                  <li>Worked closely with senior developers to learn best practices and improve skills.</li>
-                </ul>
-              </CardContent>
-            </Card>
-            <Card className="bg-gray-800 text-white border border-green-600 rounded-lg mt-4">
-              <CardContent className="p-4">
-                <h4 className="text-xl font-semibold">Intern at DEF Inc.</h4>
-                <p className="mt-2">Jan 2018 - May 2018</p>
-                <ul className="list-disc list-inside mt-2">
-                  <li>Assisted in the development of internal tools using JavaScript and Python.</li>
-                  <li>Conducted testing and debugging of applications.</li>
-                  <li>Collaborated with team members to gather requirements and provide solutions.</li>
-                </ul>
-              </CardContent>
-            </Card>
+            {experience.map((exp, index) => (
+              <Card key={index} className="bg-gray-800 text-white border border-green-600 rounded-lg mt-4">
+                <CardContent className="p-4">
+                  <h4 className="text-xl font-semibold">{exp.position} at {exp.company}</h4>
+                  <p className="mt-2">{exp.startDate} - {exp.endDate}</p>
+                  <ul className="list-disc list-inside mt-2">
+                    {exp.responsibilities.map((responsibility, idx) => (
+                      <li key={idx}>{responsibility}</li>
+                    ))}
+                  </ul>
+                </CardContent>
+              </Card>
+            ))}
           </section>
 
           {/* Education Section */}
           <section id="education" className="w-full max-w-4xl mt-20">
             <h3 className="text-2xl font-bold mb-4">Education</h3>
-            <Card className="bg-gray-800 text-white border border-green-600 rounded-lg">
-              <CardContent className="p-4">
-                <h4 className="text-xl font-semibold">Bachelor of Science in Computer Science</h4>
-                <p className="mt-2">University of ABC, 2016 - 2020</p>
-              </CardContent>
-            </Card>
+            {education.map((edu, index) => (
+              <Card key={index} className="bg-gray-800 text-white border border-green-600 rounded-lg mt-4">
+                <CardContent className="p-4">
+                  <h4 className="text-xl font-semibold">{edu.degree}</h4>
+                  <p className="mt-2">{edu.institution}, {edu.startDate} - {edu.endDate}</p>
+                </CardContent>
+              </Card>
+            ))}
           </section>
 
           {/* Skills Section */}
@@ -190,12 +183,9 @@ const Home: React.FC = () => {
             <Card className="bg-gray-800 text-white border border-green-600 rounded-lg">
               <CardContent className="p-4">
                 <ul className="list-disc list-inside">
-                  <li>Android Development</li>
-                  <li>Kotlin</li>
-                  <li>Java</li>
-                  <li>React</li>
-                  <li>Node.js</li>
-                  <li>SQL</li>
+                  {skills.map((skill, index) => (
+                    <li key={index}>{skill.name} - {skill.level}</li>
+                  ))}
                 </ul>
               </CardContent>
             </Card>
@@ -205,28 +195,19 @@ const Home: React.FC = () => {
           <section id="projects" className="w-full max-w-4xl mt-20">
             <h3 className="text-2xl font-bold mb-4">Projects</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <Card className="bg-gray-800 text-white border border-green-600 rounded-lg">
-                <CardContent className="p-4">
-                  <div>
-                    <h4 className="text-xl font-semibold">Music Platform</h4>
-                    <p className="mt-2">A platform for music distribution and streaming.</p>
-                    <Button className="mt-4 bg-green-600 text-white hover:bg-green-700 rounded-full py-3 px-6 text-lg" variant="default">
-                      <a href="https://play.google.com/store/apps/details?id=app1" target="_blank">View on Play Store</a>
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-              <Card className="bg-gray-800 text-white border border-green-600 rounded-lg">
-                <CardContent className="p-4">
-                  <div>
-                    <h4 className="text-xl font-semibold">Android Task Manager</h4>
-                    <p className="mt-2">A task management app for Android devices.</p>
-                    <Button className="mt-4 border border-green-600 text-green-600 hover:bg-green-600 hover:text-white rounded-full py-3 px-6 text-lg" variant="outline">
-                      <a href="https://play.google.com/store/apps/details?id=app2" target="_blank">View on Play Store</a>
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
+              {projects.map((project, index) => (
+                <Card key={index} className="bg-gray-800 text-white border border-green-600 rounded-lg">
+                  <CardContent className="p-4">
+                    <div>
+                      <h4 className="text-xl font-semibold">{project.name}</h4>
+                      <p className="mt-2">{project.description}</p>
+                      <Button className="mt-4 bg-green-600 text-white hover:bg-green-700 rounded-full py-3 px-6 text-lg" variant="default">
+                        <a href={project.link} target="_blank">View on Play Store</a>
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
             </div>
           </section>
 
@@ -235,13 +216,13 @@ const Home: React.FC = () => {
             <h3 className="text-2xl font-bold mb-4">Get In Touch</h3>
             <p className="mb-4">Feel free to reach out via email or connect on GitHub!</p>
             <Button className="border border-green-600 text-green-600 hover:bg-green-600 hover:text-white rounded-full py-3 px-6 text-lg" variant="outline">
-              <a href="mailto:khiemlq@gmail.com">Email Me</a>
+              <a href={`mailto:${contact.email}`}>Email Me</a>
             </Button>
           </section>
 
           {/* Footer */}
           <footer className="w-full text-center py-4 text-gray-500">
-            © {new Date().getFullYear()} Khiem Le. All rights reserved.
+            © {new Date().getFullYear()} {personalInfo.name}. All rights reserved.
           </footer>
         </>
       )}

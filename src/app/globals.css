@@ -19,3 +19,33 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.terminal-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.terminal-scrollbar::-webkit-scrollbar-track {
+  background: #000; /* Same as terminal background */
+}
+
+.terminal-scrollbar::-webkit-scrollbar-thumb {
+  background: #333; /* Same as terminal background */
+  border-radius: 4px;
+}
+
+.terminal-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #333; /* Slightly lighter for hover effect */
+}
+
+.command {
+  color: darkgreen;
+  font-weight: bold;
+}
+
+.output {
+  color: white;
+}
+
+.error {
+  color: darkred;
+}

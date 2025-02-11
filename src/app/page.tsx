@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef, FormEvent } from "react";
 import Card from "@/components/Card";
 import CardContent from "@/components/CardContent";
 import Button from "@/components/Button";
-import { Github, Terminal } from "lucide-react";
+import { Github, Terminal, ArrowUp } from "lucide-react";
 import { profileData } from "@/data/profileData";
 import ReactMarkdown from 'react-markdown';
 
@@ -105,22 +105,34 @@ const Home: React.FC = () => {
     setInput("");
   };
 
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const scrollToTerminal = () => {
+    setShowContent(false);
+    const terminalSection = document.getElementById('terminal');
+    if (terminalSection) {
+      terminalSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-terminalBackground text-terminalGreen flex flex-col items-center justify-center p-4">
+    <div className="min-h-screen bg-darkBlue text-lightGray flex flex-col items-center justify-center p-4 font-merriweather-sans">
       {!showContent ? (
         <>
-          <section id="terminal" className="w-full max-w-4xl mt-20">
-            <Card className="bg-gray-800 text-white border border-green-600 rounded-lg">
-              <CardContent className="p-4 bg-black text-green-400 font-mono rounded-xl">
+          <section id="terminal" className="w-full max-w-4xl mt-20 md:mt-0 md:h-screen">
+            <Card className="bg-gray-800 text-white border border-lightBlue rounded-lg h-full">
+              <CardContent className="p-4 bg-black text-lightGray font-mono rounded-xl h-full">
                 <TerminalOutput terminalOutput={terminalOutput} />
                 <form onSubmit={handleCommand} className="flex items-center">
-                  <span className="mr-2 text-green-400">$</span>
+                  <span className="mr-2 text-lightGray">$</span>
                   <input
                     ref={inputRef}
                     type="text"
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
-                    className="bg-black text-green-400 outline-none w-full"
+                    className="bg-black text-lightGray outline-none w-full"
                     autoFocus
                   />
                 </form>
@@ -131,15 +143,15 @@ const Home: React.FC = () => {
       ) : (
         <>
           {/* Header */}
-          <header className="w-full max-w-4xl flex justify-between items-center py-4 border-b border-terminalGreen">
+          <header className="w-full max-w-4xl flex justify-between items-center py-4 border-b border-lightBlue">
             <h1 className="text-4xl font-bold">{personalInfo.name}</h1>
-            <nav className="space-x-4">
-              <a href="#about" className="hover:text-white">About</a>
-              <a href="#experience" className="hover:text-white">Experience</a>
-              <a href="#education" className="hover:text-white">Education</a>
-              <a href="#skills" className="hover:text-white">Skills</a>
-              <a href="#projects" className="hover:text-white">Projects</a>
-              <a href="#contact" className="hover:text-white">Contact</a>
+            <nav className="hidden md:flex space-x-4">
+              <a href="#about" className="hover:text-lightGray">About</a>
+              <a href="#experience" className="hover:text-lightGray">Experience</a>
+              <a href="#education" className="hover:text-lightGray">Education</a>
+              <a href="#skills" className="hover:text-lightGray">Skills</a>
+              <a href="#projects" className="hover:text-lightGray">Projects</a>
+              <a href="#contact" className="hover:text-lightGray">Contact</a>
             </nav>
           </header>
 
@@ -149,7 +161,7 @@ const Home: React.FC = () => {
             <p className="mt-4 text-lg max-w-xl mx-auto">
               I build scalable applications for Android devices.
             </p>
-            <Button className="mt-6 bg-green-600 text-white hover:bg-green-700 rounded-full py-3 px-6 text-lg" variant="default">
+            <Button className="mt-6 bg-lightBlue text-white hover:bg-darkBlue rounded-full py-3 px-6 text-lg" variant="default">
               <a href={personalInfo.github} target="_blank" className="flex items-center space-x-2">
                 <Github className="w-6 h-6" />
                 <span>View My GitHub</span>
@@ -160,7 +172,7 @@ const Home: React.FC = () => {
           {/* About Section */}
           <section id="about" className="w-full max-w-4xl mt-20">
             <h3 className="text-2xl font-bold mb-4">About Me</h3>
-            <Card className="bg-gray-800 text-white border border-green-600 rounded-lg">
+            <Card className="bg-gray-800 text-white border border-lightBlue rounded-lg">
               <CardContent className="p-4">
                 <p>{about.description}</p>
                 <p className="mt-4">{about.goals}</p>
@@ -172,7 +184,7 @@ const Home: React.FC = () => {
           <section id="experience" className="w-full max-w-4xl mt-20">
             <h3 className="text-2xl font-bold mb-4">Experience</h3>
             {experience.map((exp, index) => (
-              <Card key={index} className="bg-gray-800 text-white border border-green-600 rounded-lg mt-4">
+              <Card key={index} className="bg-gray-800 text-white border border-lightBlue rounded-lg mt-4">
                 <CardContent className="p-4">
                   <h4 className="text-xl font-semibold">{exp.position} at {exp.company}</h4>
                   <p className="mt-2">{exp.startDate} - {exp.endDate}</p>
@@ -190,7 +202,7 @@ const Home: React.FC = () => {
           <section id="education" className="w-full max-w-4xl mt-20">
             <h3 className="text-2xl font-bold mb-4">Education</h3>
             {education.map((edu, index) => (
-              <Card key={index} className="bg-gray-800 text-white border border-green-600 rounded-lg mt-4">
+              <Card key={index} className="bg-gray-800 text-white border border-lightBlue rounded-lg mt-4">
                 <CardContent className="p-4">
                   <h4 className="text-xl font-semibold">{edu.degree}</h4>
                   <p className="mt-2">{edu.institution}, {edu.startDate} - {edu.endDate}</p>
@@ -202,7 +214,7 @@ const Home: React.FC = () => {
           {/* Skills Section */}
           <section id="skills" className="w-full max-w-4xl mt-20">
             <h3 className="text-2xl font-bold mb-4">Skills</h3>
-            <Card className="bg-gray-800 text-white border border-green-600 rounded-lg">
+            <Card className="bg-gray-800 text-white border border-lightBlue rounded-lg">
               <CardContent className="p-4">
                 <ul className="list-disc list-inside">
                   {skills.map((skill, index) => (
@@ -218,12 +230,12 @@ const Home: React.FC = () => {
             <h3 className="text-2xl font-bold mb-4">Projects</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {projects.map((project, index) => (
-                <Card key={index} className="bg-gray-800 text-white border border-green-600 rounded-lg">
+                <Card key={index} className="bg-gray-800 text-white border border-lightBlue rounded-lg">
                   <CardContent className="p-4">
                     <div>
                       <h4 className="text-xl font-semibold">{project.name}</h4>
                       <p className="mt-2">{project.description}</p>
-                      <Button className="mt-4 bg-green-600 text-white hover:bg-green-700 rounded-full py-3 px-6 text-lg" variant="default">
+                      <Button className="mt-4 bg-lightBlue text-white hover:bg-darkBlue rounded-full py-3 px-6 text-lg" variant="default">
                         <a href={project.link} target="_blank">View on Play Store</a>
                       </Button>
                     </div>
@@ -237,7 +249,7 @@ const Home: React.FC = () => {
           <section id="contact" className="w-full max-w-4xl mt-20 mb-12 text-center">
             <h3 className="text-2xl font-bold mb-4">Get In Touch</h3>
             <p className="mb-4">Feel free to reach out via email or connect on GitHub!</p>
-            <Button className="border border-green-600 text-green-600 hover:bg-green-600 hover:text-white rounded-full py-3 px-6 text-lg" variant="outline">
+            <Button className="border border-lightBlue text-lightBlue hover:bg-lightBlue hover:text-white rounded-full py-3 px-6 text-lg" variant="outline">
               <a href={`mailto:${contact.email}`}>Email Me</a>
             </Button>
           </section>
@@ -247,6 +259,24 @@ const Home: React.FC = () => {
             © {new Date().getFullYear()} {personalInfo.name}. All rights reserved.
           </footer>
         </>
+      )}
+
+      {/* Floating Buttons */}
+      {showContent && (
+        <div className="fixed bottom-4 right-4 flex flex-col space-y-2">
+          <button
+            onClick={scrollToTerminal}
+            className="bg-lightBlue text-white p-3 rounded-full shadow-lg hover:bg-darkBlue"
+          >
+            <Terminal className="w-6 h-6" />
+          </button>
+          <button
+            onClick={scrollToTop}
+            className="bg-lightBlue text-white p-3 rounded-full shadow-lg hover:bg-darkBlue"
+          >
+            <ArrowUp className="w-6 h-6" />
+          </button>
+        </div>
       )}
     </div>
   );

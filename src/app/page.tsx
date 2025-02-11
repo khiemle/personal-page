@@ -6,6 +6,7 @@ import CardContent from "@/components/CardContent";
 import Button from "@/components/Button";
 import { Github, Terminal } from "lucide-react";
 import { profileData } from "@/data/profileData";
+import ReactMarkdown from 'react-markdown';
 
 const getAIResponse = async (message: string) => {
   const response = await fetch('/api/getAIResponse', {
@@ -17,7 +18,6 @@ const getAIResponse = async (message: string) => {
   const data = await response.json();
   return data.response;
 };
-
 
 interface TerminalOutputProps {
   terminalOutput: { type: string; message: string }[];
@@ -36,7 +36,11 @@ const TerminalOutput: React.FC<TerminalOutputProps> = ({ terminalOutput }) => {
     <div className="overflow-y-auto mb-4 terminal-scrollbar" style={{ maxHeight: '60vh' }}>
       {terminalOutput.map((line, index) => (
         <div key={index} className={line.type}>
-          {line.message}
+          {line.type === 'output' ? (
+            <ReactMarkdown>{line.message}</ReactMarkdown>
+          ) : (
+            line.message
+          )}
         </div>
       ))}
       <div ref={terminalEndRef} />
@@ -88,7 +92,7 @@ const Home: React.FC = () => {
         return;
       default:
         // If the command is not recognized, get AI response
-        newOutput.push({ type: "loading", message: "Loading AI response..." });
+        newOutput.push({ type: "loading", message: "..." });
         setTerminalOutput(newOutput);
 
         const aiResponse = await getAIResponse(input);

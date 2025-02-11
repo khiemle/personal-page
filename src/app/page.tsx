@@ -7,15 +7,17 @@ import Button from "@/components/Button";
 import { Github, Terminal } from "lucide-react";
 import { profileData } from "@/data/profileData";
 
-// Mock AI response function
-const getAIResponse = async (message: string): Promise<string> => {
-  // Simulate an AI response
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(`AI Response to: "${message}"`);
-    }, 1000);
+const getAIResponse = async (message: string) => {
+  const response = await fetch('/api/getAIResponse', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ message }),
   });
+
+  const data = await response.json();
+  return data.response;
 };
+
 
 interface TerminalOutputProps {
   terminalOutput: { type: string; message: string }[];

@@ -6,6 +6,16 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --pure-white: #FFFFFF;
+  --ghost-white: #F8F8FF;
+  --snow: #FFFAFA;
+  --ivory: #FFFFF0;
+  --floral-white: #FFFAF0;
+  --seashell: #FFF5EE;
+  --old-lace: #FDF5E6;
+  --white-smoke: #F5F5F5;
+  --gainsboro: #DCDCDC;
+  --light-gray: #D3D3D3;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -16,7 +26,7 @@
 }
 
 body {
-  color: var(--foreground);
+  color: var(--pure-white);
   background: var(--background);
   font-family: 'Merriweather Sans', Arial, Helvetica, sans-serif;
 }
@@ -55,7 +65,6 @@ body {
   color: darkred;
 }
 
-/* Add these styles to your global CSS file or a specific CSS module */
 .bg-darkBlue {
   background-color: #1a1a2e;
 }
@@ -82,4 +91,71 @@ body {
 
 .hover\:text-lightGray:hover {
   color: #eaeaea;
+}
+
+/* Animation styles */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+.fade-out {
+  animation: fadeOut 0.5s ease-out forwards;
+}
+
+.text-ghost-white {
+  color: var(--ghost-white);
+}
+
+.text-snow {
+  color: var(--snow);
+}
+
+.text-ivory {
+  color: var(--ivory);
+}
+
+.text-floral-white {
+  color: var(--floral-white);
+}
+
+.text-seashell {
+  color: var(--seashell);
+}
+
+.text-old-lace {
+  color: var(--old-lace);
+}
+
+.text-white-smoke {
+  color: var(--white-smoke);
+}
+
+.text-gainsboro {
+  color: var(--gainsboro);
+}
+
+.text-light-gray {
+  color: var(--light-gray);
 }

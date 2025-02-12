@@ -7,8 +7,8 @@ const AboutSection: React.FC<{ about: any }> = ({ about }) => (
     <h3 className="text-2xl font-bold mb-4">About Me</h3>
     <Card className="bg-gray-800 text-white border border-lightBlue rounded-lg">
       <CardContent className="p-4">
-        <p>{about.description}</p>
-        <p className="mt-4">{about.goals}</p>
+        <p className='text-light-gray'>{about.description}</p>
+        <p className="mt-4 text-light-gray">{about.goals}</p>
       </CardContent>
     </Card>
   </section>

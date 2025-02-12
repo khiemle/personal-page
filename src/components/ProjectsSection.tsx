@@ -12,7 +12,7 @@ const ProjectsSection: React.FC<{ projects: any[] }> = ({ projects }) => (
           <CardContent className="p-4">
             <div>
               <h4 className="text-xl font-semibold">{project.name}</h4>
-              <p className="mt-2">{project.description}</p>
+              <p className="mt-2 text-light-gray">{project.description}</p>
               <Button className="mt-4 bg-lightBlue text-white hover:bg-darkBlue rounded-full py-3 px-6 text-lg" variant="default">
                 <a href={project.link} target="_blank">View on Play Store</a>
               </Button>

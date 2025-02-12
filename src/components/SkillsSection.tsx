@@ -7,11 +7,16 @@ const SkillsSection: React.FC<{ skills: any[] }> = ({ skills }) => (
     <h3 className="text-2xl font-bold mb-4">Skills</h3>
     <Card className="bg-gray-800 text-white border border-lightBlue rounded-lg">
       <CardContent className="p-4">
-        <ul className="list-disc list-inside">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
           {skills.map((skill, index) => (
-            <li key={index}>{skill.name} - {skill.level}</li>
+            <div
+              key={index}
+              className="bg-gray-700 text-white py-2 px-4 rounded-full text-center inline-flex justify-center items-center"
+            >
+              {skill.name}
+            </div>
           ))}
-        </ul>
+        </div>
       </CardContent>
     </Card>
   </section>

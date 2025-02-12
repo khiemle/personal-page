@@ -179,18 +179,19 @@ export const profileData: Profile = {
         {
             name: "Axon App",
             description: "Axon App is a mobile application that allows users to access Axon's services and products. The app is available on both Android and iOS platforms. This project is built with Jetpack compose",
-            link: "play.google.com/store/apps/details?id=com.axon.one"
+            link: "https://play.google.com/store/apps/details?id=com.axon.one"
         },
 
         {
             name: "Axon Respond",
             description: "Axon Respond is a mobile application that allows users to watch live stream from Axon's camera devices Axon Body Camera, Fleet, Axon Air. I started this project from scratch. I used the MVVM architecture pattern, explored WebRTC, and implemented the camera live stream feature.",
-            link: "play.google.com/store/apps/details?id=com.axon.apollo"
+            link: "https://play.google.com/store/apps/details?id=com.axon.apollo"
         },
 
     ],
     contact: {
         email: "khiemlq@gmail.com",
-        github: "https://github.com/khiemle"
+        github: "https://github.com/khiemle",
+        linkedin: "https://www.linkedin.com/in/khiemlq/"
     }
 };

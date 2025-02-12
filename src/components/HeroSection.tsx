@@ -1,6 +1,6 @@
 import React from 'react';
 import Button from '@/components/Button';
-import { Github } from 'lucide-react';
+import { FaGithub } from 'react-icons/fa';
 
 const HeroSection: React.FC<{ personalInfo: any }> = ({ personalInfo }) => (
   <section className="text-center mt-12">
@@ -9,9 +9,8 @@ const HeroSection: React.FC<{ personalInfo: any }> = ({ personalInfo }) => (
       Crafting high-performance Android applications that scale seamlessly.
     </p>
     <Button className="mt-6 bg-lightBlue text-white hover:bg-darkBlue rounded-full py-3 px-6 text-lg" variant="default">
-      <a href={personalInfo.github} target="_blank" className="flex items-center space-x-2">
-        <Github className="w-6 h-6" />
-        <span>View My GitHub</span>
+      <a href={personalInfo.github} target="_blank" className="flex items-center justify-center">
+        <FaGithub className="w-6 h-6" />
       </a>
     </Button>
   </section>

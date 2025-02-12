@@ -2,6 +2,7 @@ import React from 'react';
 import Card from '@/components/Card';
 import CardContent from '@/components/CardContent';
 import Button from '@/components/Button';
+import { FaGooglePlay } from 'react-icons/fa';
 
 const ProjectsSection: React.FC<{ projects: any[] }> = ({ projects }) => (
   <section id="projects" className="w-full max-w-4xl mt-20">
@@ -14,7 +15,9 @@ const ProjectsSection: React.FC<{ projects: any[] }> = ({ projects }) => (
               <h4 className="text-xl font-semibold">{project.name}</h4>
               <p className="mt-2 text-light-gray">{project.description}</p>
               <Button className="mt-4 bg-lightBlue text-white hover:bg-darkBlue rounded-full py-3 px-6 text-lg" variant="default">
-                <a href={project.link} target="_blank">View on Play Store</a>
+                <a href={project.link} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center">
+                  <FaGooglePlay className="w-6 h-6" />
+                </a>
               </Button>
             </div>
           </CardContent>

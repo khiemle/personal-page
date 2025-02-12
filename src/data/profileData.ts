@@ -169,11 +169,15 @@ export const profileData: Profile = {
     ],
     skills: [
         { name: "Android", level: "" },
-        { name: "Android Development", level: "" },
         { name: "Kotlin", level: "" },
+        { name: "Java", level: "" },
         { name: "Python", level: "" },
+        { name: "Javascript", level: "" },
         { name: "CI/CD", level: "" },
         { name: "Automation scripts", level: "" },
+        { name: "Prompt engineering", level: "" },
+        { name: "System design", level: "" },
+        { name: "Git", level: "" },
     ],
     projects: [
         {

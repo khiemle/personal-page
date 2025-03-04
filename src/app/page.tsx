@@ -39,42 +39,38 @@ const Home: React.FC = () => {
     }
   }, [terminalOutput]);
 
+  const commands: { [key: string]: string } = {
+    "who": personalInfo.name,
+    "do": "Android app development, Software Engineering, Coffee lover",
+    "projects": projects.map(project => project.name).join("\n"),
+    "contact": `Email: ${contact.email}\nGitHub: ${contact.github}`
+  };
+
   const handleCommand = async (e: FormEvent) => {
     e.preventDefault();
     const newOutput = [...terminalOutput, { type: "command", message: `$ ${input}` }];
+    const command = input.trim().toLowerCase();
 
-    switch (input.trim().toLowerCase()) {
-      case "who":
-        newOutput.push({ type: "output", message: personalInfo.name });
-        break;
-      case "do":
-        newOutput.push({ type: "output", message: "Android app development, Software Engineering, Coffee lover" });
-        break;
-      case "projects":
-        newOutput.push({ type: "output", message: projects.map(project => project.name).join("\n") });
-        break;
-      case "contact":
-        newOutput.push({ type: "output", message: `Email: ${contact.email}\nGitHub: ${contact.github}` });
-        break;
-      case "help":
-        newOutput.push({ type: "output", message: "Available commands: who, do, projects, contact, about, clear" });
-        break;
-      case "clear":
-        setTerminalOutput([]);
-        setInput("");
-        return;
-      case "about":
-        setShowContent(true);
-        return;
-      default:
-        // If the command is not recognized, get AI response
-        newOutput.push({ type: "loading", message: "..." });
-        setTerminalOutput(newOutput);
+    if (commands[command]) {
+      newOutput.push({ type: "output", message: commands[command] });
+    } else if (command === "clear") {
+      setTerminalOutput([]);
+      setInput("");
+      return;
+    } else if (command === "about") {
+      setShowContent(true);
+      return;
+    } else if (command === "help") {
+      const availableCommands = Object.keys(commands).join(", ");
+      newOutput.push({ type: "output", message: `Available commands: ${availableCommands}, about, clear` });
+    } else {
+      // If the command is not recognized, get AI response
+      newOutput.push({ type: "loading", message: "..." });
+      setTerminalOutput(newOutput);
 
-        const aiResponse = await getAIResponse(input);
-        newOutput.pop(); // Remove loading message
-        newOutput.push({ type: "output", message: aiResponse });
-        break;
+      const aiResponse = await getAIResponse(input);
+      newOutput.pop(); // Remove loading message
+      newOutput.push({ type: "output", message: aiResponse });
     }
 
     setTerminalOutput(newOutput);

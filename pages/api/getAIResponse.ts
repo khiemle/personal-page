@@ -10,11 +10,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   const message = req.body.message;
   
-  const cheaperModel = "llama-3.1-sonar-small-128k-online";
   const sonarModel = "sonar"
+  // Deprecated models
+  const cheaperModel = "llama-3.1-sonar-small-128k-online";
+  
 
   const body = {
-    model: cheaperModel,
+    model: sonarModel,
     stream: false,
     max_tokens: 1024,
     frequency_penalty: 1,

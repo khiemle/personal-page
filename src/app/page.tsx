@@ -27,7 +27,7 @@ const getAIResponse = async (message: string) => {
 const Home: React.FC = () => {
   const { personalInfo, about, experience, education, skills, projects, contact } = profileData;
   const [terminalOutput, setTerminalOutput] = useState<{ type: string; message: string }[]>([
-    { type: "command", message: "Type 'help' for available commands. Type 'about' to see my full CV" }
+    { type: "command", message: "Type 'help' for available commands. Type 'about' to show profile" }
   ]);
   const [input, setInput] = useState<string>("");
   const inputRef = useRef<HTMLInputElement>(null);
@@ -40,10 +40,11 @@ const Home: React.FC = () => {
   }, [terminalOutput]);
 
   const commands: { [key: string]: string } = {
-    "who": personalInfo.name,
-    "do": "Android app development, Software Engineering, Coffee lover",
-    "projects": projects.map(project => project.name).join("\n"),
-    "contact": `Email: ${contact.email}\nGitHub: ${contact.github}`
+    "whoami": personalInfo.name + " - " + "Android app development, Software Engineering, Coffee lover",
+    "skills": skills.map(skill => skill.name).join(", "),
+    "portfolio": projects.map(project => project.name).join(", "),
+    "contact": `Email: ${contact.email}\nGitHub: ${contact.github}`,
+    "help": "Available commands:\n- whoami: Display personal information\n- skills: Show technical skills and interests\n- portfolio: List all projects\n- contact: Show contact information\n- blog: Access blog posts\n- clear: Clear terminal output"
   };
 
   const handleCommand = async (e: FormEvent) => {
@@ -60,7 +61,11 @@ const Home: React.FC = () => {
     } else if (command === "about") {
       setShowContent(true);
       return;
-    } else if (command === "help") {
+    } else if (command === "blog") {
+      window.location.href = '/blog';
+      return;
+    }
+    else if (command === "help") {
       const availableCommands = Object.keys(commands).join(", ");
       newOutput.push({ type: "output", message: `Available commands: ${availableCommands}, about, clear` });
     } else {

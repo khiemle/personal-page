@@ -9,19 +9,23 @@
   },
   "dependencies": {
     "@shadcn/ui": "^0.0.4",
+    "@types/react-syntax-highlighter": "^15.5.13",
     "@vercel/analytics": "^1.5.0",
     "@vercel/speed-insights": "^1.2.0",
     "axios": "^1.7.9",
     "cheerio": "^1.0.0",
     "dotenv": "^16.4.7",
+    "gray-matter": "^4.0.3",
     "lucide-react": "^0.475.0",
     "next": "15.1.6",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-icons": "^5.4.0",
-    "react-markdown": "^9.0.3"
+    "react-markdown": "^9.0.3",
+    "react-syntax-highlighter": "^15.6.1"
   },
   "devDependencies": {
+    "@tailwindcss/typography": "^0.5.16",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

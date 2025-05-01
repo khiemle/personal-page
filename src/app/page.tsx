@@ -44,7 +44,7 @@ const Home: React.FC = () => {
     "skills": skills.map(skill => skill.name).join(", "),
     "portfolio": projects.map(project => project.name).join(", "),
     "contact": `Email: ${contact.email}\nGitHub: ${contact.github}`,
-    "help": "Available commands:\n- whoami: Display personal information\n- skills: Show technical skills and interests\n- portfolio: List all projects\n- contact: Show contact information\n- blog: Access blog posts\n- clear: Clear terminal output"
+    "help": "Available commands:\n- whoami: Display personal information\n- skills: Show technical skills and interests\n- portfolio: List all projects\n- contact: Show contact information\n- clear: Clear terminal output"
   };
 
   const handleCommand = async (e: FormEvent) => {
@@ -61,11 +61,7 @@ const Home: React.FC = () => {
     } else if (command === "about") {
       setShowContent(true);
       return;
-    } else if (command === "blog") {
-      window.location.href = '/blog';
-      return;
-    }
-    else if (command === "help") {
+    } else if (command === "help") {
       const availableCommands = Object.keys(commands).join(", ");
       newOutput.push({ type: "output", message: `Available commands: ${availableCommands}, about, clear` });
     } else {

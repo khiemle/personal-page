@@ -9,8 +9,8 @@ export const profileData: Profile = {
         github: "https://github.com/khiemle"
     },
     about: {
-        description: "My goal in joining this company is to work in a positive and stimulating environment that encourages continuous learning and growth. I hope to contribute my past experiences and skills towards creating value for the company.",
-        goals: "In addition, I am looking forward to opportunities for professional development and advancement within the company over time. While I am not necessarily seeking a specific position within the IT industry, my ultimate goal is to gain the skills and knowledge necessary to eventually own my own business and have more control over my time."
+        description: "I'm an Android developer with solid experience in building and maintaining mobile applications. I’ve developed many Android apps with a focus on scalability, performance, and real-life impact. I enjoy creating products that are useful, easy to use, and solve real problems.",
+        goals: "I'm always looking to improve my skills and explore better ways to build mobile apps. My long-term goal is to build my own products and have more freedom in how I use my time and energy. An additional focus is prompt engineering — I believe developers who adapt quickly to AI tools can deliver wow-quality user experiences and scale technical stacks faster."
     },
     experience: [
         {

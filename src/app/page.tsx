@@ -31,7 +31,7 @@ const Home: React.FC = () => {
   ]);
   const [input, setInput] = useState<string>("");
   const inputRef = useRef<HTMLInputElement>(null);
-  const [showContent, setShowContent] = useState<boolean>(false);
+  const [showContent, setShowContent] = useState<boolean>(true);
 
   useEffect(() => {
     if (inputRef.current) {
